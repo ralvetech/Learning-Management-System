@@ -61,7 +61,10 @@ protected:
             "marked_by INTEGER,"
             "moderated_by INTEGER,"
             "released_at TEXT,"
-            "UNIQUE(assignment_id,student_id))"));
+            "UNIQUE(assignment_id,student_id))"
+            "FOREIGN KEY(assignment_id) REFERENCES assignments(id),"
+            "FOREIGN KEY(student_id) REFERENCES users(id))"
+            ));
 
         ASSERT_TRUE(q.exec(
             "INSERT INTO users VALUES"
