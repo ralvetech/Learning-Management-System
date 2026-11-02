@@ -19,18 +19,35 @@ target_link_libraries(moderated_lms PRIVATE Qt6::Widgets Qt6::Sql OpenSSL::Crypt
 target_include_directories(moderated_lms PRIVATE include)
 target_include_directories(moderated_lms PRIVATE ${OPENSSL_INCLUDE_DIR})
 
+
 include(CTest)
+
 if(BUILD_TESTING)
-  find_package(GTest QUIET)
-  if(GTest_FOUND)
-    add_executable(domain_tests tests/domain_tests.cpp)
-    target_include_directories(domain_tests PRIVATE include)
-    target_link_libraries(domain_tests PRIVATE GTest::gtest_main)
-    include(GoogleTest)
-    gtest_discover_tests(domain_tests)
-  else()
-    message(STATUS "GoogleTest not found; running fallback policy tests only")
-    add_executable(policy_tests tests/policy_tests.cpp)
-    add_test(NAME policy_tests COMMAND policy_tests)
-  endif()
+
+    find_package(GTest REQUIRED)
+
+    add_executable(lms_tests
+        tests/test_main.cpp
+        tests/domain_tests.cpp
+        tests/database_tests.cpp
+        tests/submission_tests.cpp
+        tests/moderation_tests.cpp
+    )
+
+    target_include_directories(lms_tests PRIVATE
+        include
+    )
+
+    target_link_libraries(lms_tests PRIVATE
+        GTest::gtest
+        Qt6::Core
+        Qt6::Sql
+    )
+
+    add_test(
+        NAME lms_tests
+        COMMAND lms_tests
+    )
+
 endif()
+

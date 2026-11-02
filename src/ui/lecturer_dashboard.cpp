@@ -58,7 +58,8 @@ void MainWindow::buildLecturer() {
             const int sid=t->item(row,0)->text().toInt();
             QSqlQuery q;
             q.prepare(
-                "SELECT s.content,u.full_name,c.code,a.title,s.submitted_at,s.status "
+                "SELECT s.content,u.full_name,c.code,a.title,s.submitted_at,s.status,"
+                "s.raw_mark,s.final_mark,a.max_mark,COALESCE(s.feedback,'') "
                 "FROM submissions s "
                 "JOIN assignments a ON a.id=s.assignment_id "
                 "JOIN courses c ON c.id=a.course_id "
@@ -86,6 +87,9 @@ void MainWindow::buildLecturer() {
                 + "<br><b>Assignment:</b> " + q.value(3).toString().toHtmlEscaped()
                 + "<br><b>Submitted:</b> " + q.value(4).toString().toHtmlEscaped()
                 + "<br><b>Status:</b> " + q.value(5).toString().toHtmlEscaped()
+                + "<br><b>Raw mark:</b> " + (q.value(6).isNull() ? QString("Not marked") : q.value(6).toString() + " / " + q.value(8).toString())
+                + "<br><b>Final mark:</b> " + (q.value(7).isNull() ? QString("Not marked") : q.value(7).toString() + " / " + q.value(8).toString())
+                + "<br><b>Feedback:</b> " + q.value(9).toString().toHtmlEscaped()
             );
             details->setTextFormat(Qt::RichText);
             details->setWordWrap(true);

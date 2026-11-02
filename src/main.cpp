@@ -4,6 +4,18 @@
 #include "lms/ui/login_dialog.hpp"
 #include "lms/ui/main_window.hpp"
 
+#include <QCoreApplication>
+#include <gtest/gtest.h>
+
+int main(int argc, char **argv) {
+    QCoreApplication app(argc, argv);
+
+    ::testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
+}
+
+
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     QApplication::setApplicationName("Moderated LMS");
