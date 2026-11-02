@@ -1,0 +1,208 @@
+1. Introduction
+
+This guide explains how to prepare a Kali Linux computer for building and running the Moderated Learning Management System (LMS). The project uses C++17, Qt 6 for the desktop interface, SQLite for data storage, CMake as the build system, and GoogleTest for automated unit testing where the test target is configured.
+
+The instructions assume that the project source code and its CMakeLists.txt file are already available on the computer. Replace example directory names with the actual location of the project.
+
+2. Requirements
+
+Component
+
+Purpose
+
+Kali Linux
+
+Operating system used for development and execution.
+
+G++ compiler
+
+Compiles the C++17 source code.
+
+CMake
+
+Configures the project and generates build files.
+
+Ninja (optional)
+
+Alternative build tool; Make may be used instead.
+
+Qt 6 development packages
+
+Provides Qt libraries and headers for the GUI.
+
+Qt SQLite driver
+
+Allows the application to access SQLite through Qt SQL.
+
+SQLite
+
+Database engine and development library.
+
+GoogleTest
+
+Unit-testing framework, if included in the project build.
+
+3. Update Kali Linux
+
+Open a terminal and update the package lists:
+
+sudo apt update
+
+Optionally upgrade installed packages:
+
+sudo apt full-upgrade -y
+
+Restart the computer if the upgrade installs a new kernel or requests a restart.
+
+4. Install the compiler and build tools
+
+Install the C++ compiler, CMake, Make, Ninja and Git:
+
+sudo apt install -y build-essential g++ cmake make ninja-build git
+
+Verify the installations:
+
+g++ --version
+cmake --version
+make --version
+ninja --version
+git --version
+
+The commands should print version information. If a command is not found, check that the package installation completed successfully.
+
+5. Install Qt 6 and the SQLite driver
+
+Install the Qt 6 development tools and Qt SQL SQLite plugin:
+
+sudo apt install -y qt6-base-dev qt6-base-dev-tools libqt6sql6-sqlite
+
+Verify the packages:
+
+dpkg -l | grep -E 'qt6-base-dev|qt6-base-dev-tools|libqt6sql6-sqlite'
+
+The package list should show installed packages with status 'ii'. Qt applications using QSqlDatabase with the QSQLITE driver require the SQLite driver plugin at runtime.
+
+6. Install SQLite
+
+Install the SQLite command-line utility and development headers:
+
+sudo apt install -y sqlite3 libsqlite3-dev
+
+Check the SQLite version:
+
+sqlite3 --version
+
+Check the development package:
+
+dpkg -l | grep -E 'sqlite3|libsqlite3-dev'
+
+7. Install GoogleTest
+
+Install GoogleTest development files:
+
+sudo apt install -y libgtest-dev
+
+Verify the package:
+
+dpkg -l | grep libgtest-dev
+
+The project must also define a GoogleTest executable in CMakeLists.txt before tests can be built and run. Installing GoogleTest alone does not create or execute project tests.
+
+8. Locate and prepare the LMS source code
+
+Open a terminal and change to the directory containing the LMS CMakeLists.txt file. For example, if the project is in a folder named ModeratedLMS under the home directory:
+
+cd ~/ModeratedLMS
+
+Confirm that the project files are present:
+
+ls -la
+find . -maxdepth 2 -name CMakeLists.txt -o -name '*.cpp' -o -name '*.hpp'
+
+If the project is stored elsewhere, use its actual path. Do not create a new CMakeLists.txt or rename source files unless the project structure requires it.
+
+9. Configure the project with CMake
+
+From the project root, create a separate build directory and configure the project:
+
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+CMake checks the project configuration, locates required libraries and generates build files. If configuration fails, read the first relevant error message. Common causes include missing Qt modules, an incorrect Qt package name, or a missing source file listed in CMakeLists.txt.
+
+10. Compile the LMS
+
+Build the application:
+
+cmake --build build --parallel
+
+Wait for the command to finish. A successful build normally ends without compiler or linker errors and creates the executable in the build directory. The executable name is defined by the project's add_executable() target.
+
+Find executable files produced by the build:
+
+find build -maxdepth 4 -type f -executable -print
+
+11. Run the LMS application
+
+Use the actual executable path found in the previous step. For example, if the executable is named ModeratedLMS and is directly inside build:
+
+./build/ModeratedLMS
+
+If the application does not start, run it from the terminal so that runtime error messages are visible. Check that Qt runtime libraries and the QSQLITE plugin are installed.
+
+12. Build and run GoogleTest tests
+
+This section applies only if the project CMake configuration includes a test target and calls enable_testing() or include(CTest). Configure with testing enabled:
+
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON
+
+Build the configured targets:
+
+cmake --build build --parallel
+
+Run tests registered with CTest:
+
+ctest --test-dir build --output-on-failure
+
+If CTest reports that no tests were found, check whether the test executable is added with add_test() in CMakeLists.txt. If GoogleTest is installed but the project has no test source files or test target, the tests still need to be implemented and connected to CMake.
+
+13. Common installation and build problems
+
+'Unable to locate package' Run sudo apt update, check the package spelling and confirm the Kali repositories are configured.
+
+'Could not find Qt6' or Qt package configuration missing Install qt6-base-dev and verify the package is available using dpkg -l. Re-run CMake after installation.
+
+'QSQLITE driver not loaded' Install libqt6sql6-sqlite. Check that the Qt SQLite plugin matches the Qt version used by the application.
+
+'No such file or directory' for a project source file Check the project directory and ensure every source file listed in CMakeLists.txt exists at the expected path.
+
+CMake cache or generator mismatch Remove only the generated build directory and configure again: rm -rf build, then rerun the CMake configuration command.
+
+Permission denied when launching Check the executable path and permissions. Rebuild if the expected executable was not generated.
+
+Application opens and immediately closes Launch it from the terminal and inspect the error output. Check database path, Qt plugins and runtime dependencies.
+
+14. Installation completion checklist
+
+☐ Kali Linux package lists updated.
+
+☐ G++ compiler and build tools installed.
+
+☐ Qt 6 development packages and Qt SQLite driver installed.
+
+☐ SQLite command-line utility and development library installed.
+
+☐ GoogleTest development package installed, if required.
+
+☐ LMS source directory located and checked.
+
+☐ CMake configuration completed successfully.
+
+☐ LMS compiled successfully.
+
+☐ LMS executable launched successfully.
+
+☐ GoogleTest suite built and executed, if configured.
+
+15. Conclusion
+
+Following this guide prepares a Kali Linux environment for building and running the Moderated LMS. The exact build and test outcome depends on the source code, CMake configuration and installed dependencies. Installation of the tools does not by itself prove that the application compiles, runs correctly or passes its tests; those activities must be performed and checked separately.
