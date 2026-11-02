@@ -114,17 +114,6 @@ int main(int argc, char *argv[]) {
         border: 1px solid #000000;
     }
    )");
-    QCoreApplication app(argc, argv);
-
-    ::testing::InitGoogleTest(&argc, argv);
-
-    return RUN_ALL_TESTS();
-
-    if (!initDatabase()) {
-        QMessageBox::critical(nullptr, "Database error",
-            "Could not initialise SQLite database. Check write permissions and Qt SQLite driver.");
-        return 1;
-    }
 
     LoginDialog login;
     if (login.exec() != QDialog::Accepted) return 0;
