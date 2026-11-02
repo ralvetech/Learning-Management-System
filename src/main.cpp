@@ -3,17 +3,8 @@
 #include "lms/common.hpp"
 #include "lms/ui/login_dialog.hpp"
 #include "lms/ui/main_window.hpp"
-
 #include <QCoreApplication>
 #include <gtest/gtest.h>
-
-int main(int argc, char **argv) {
-    QCoreApplication app(argc, argv);
-
-    ::testing::InitGoogleTest(&argc, argv);
-
-    return RUN_ALL_TESTS();
-}
 
 
 int main(int argc, char *argv[]) {
@@ -123,7 +114,11 @@ int main(int argc, char *argv[]) {
         border: 1px solid #000000;
     }
    )");
+    QCoreApplication app(argc, argv);
 
+    ::testing::InitGoogleTest(&argc, argv);
+
+    return RUN_ALL_TESTS();
 
     if (!initDatabase()) {
         QMessageBox::critical(nullptr, "Database error",
