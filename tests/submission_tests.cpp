@@ -15,6 +15,14 @@ protected:
         db.setDatabaseName(":memory:");
 
         ASSERT_TRUE(db.open());
+        QSqlQuery pragma(db);
+
+        ASSERT_TRUE(pragma.exec("PRAGMA foreign_keys = ON"));
+        
+        ASSERT_TRUE(pragma.exec("PRAGMA foreign_keys"));
+        ASSERT_TRUE(pragma.next());
+        
+        EXPECT_EQ(pragma.value(0).toInt(), 1);
 
         QSqlQuery q(db);
 
