@@ -1,0 +1,57 @@
+Command:
+    ./build/lms_tests
+
+[==========] Running 18 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 6 tests from DatabaseTests
+[ RUN      ] DatabaseTests.EnforcesUniqueUsernames
+[       OK ] DatabaseTests.EnforcesUniqueUsernames (0 ms)
+[ RUN      ] DatabaseTests.RejectsUnknownRole
+[       OK ] DatabaseTests.RejectsUnknownRole (0 ms)
+[ RUN      ] DatabaseTests.EnforcesForeignKeysForCourseDepartment
+[       OK ] DatabaseTests.EnforcesForeignKeysForCourseDepartment (0 ms)
+[ RUN      ] DatabaseTests.PreventsDuplicateStudentCourseEnrolment
+[       OK ] DatabaseTests.PreventsDuplicateStudentCourseEnrolment (0 ms)
+[ RUN      ] DatabaseTests.RejectsNonPositiveAssignmentMaximumMark
+[       OK ] DatabaseTests.RejectsNonPositiveAssignmentMaximumMark (0 ms)
+[ RUN      ] DatabaseTests.UsesBoundParametersForStoredText
+[       OK ] DatabaseTests.UsesBoundParametersForStoredText (0 ms)
+[----------] 6 tests from DatabaseTests (1 ms total)
+
+[----------] 6 tests from SubmissionTests
+[ RUN      ] SubmissionTests.SavesSubmissionWithTimestampAndContent
+[       OK ] SubmissionTests.SavesSubmissionWithTimestampAndContent (0 ms)
+[ RUN      ] SubmissionTests.PreventsDuplicateSubmissionForSameAssignmentAndStudent
+[       OK ] SubmissionTests.PreventsDuplicateSubmissionForSameAssignmentAndStudent (0 ms)
+[ RUN      ] SubmissionTests.UsesIndividualExtensionBeforeClassOrOriginalDeadline
+[       OK ] SubmissionTests.UsesIndividualExtensionBeforeClassOrOriginalDeadline (0 ms)
+[ RUN      ] SubmissionTests.UsesClassExtensionWhenNoIndividualExtensionExists
+[       OK ] SubmissionTests.UsesClassExtensionWhenNoIndividualExtensionExists (0 ms)
+[ RUN      ] SubmissionTests.StoresLateStatusAndBothRawAndFinalMarks
+[       OK ] SubmissionTests.StoresLateStatusAndBothRawAndFinalMarks (0 ms)
+[ RUN      ] SubmissionTests.RejectsSubmissionForUnknownAssignmentThroughForeignKey
+[       OK ] SubmissionTests.RejectsSubmissionForUnknownAssignmentThroughForeignKey (0 ms)
+[----------] 6 tests from SubmissionTests (1 ms total)
+
+[----------] 6 tests from ModerationTests
+[ RUN      ] ModerationTests.HoDQueueContainsOnlyMarksFromOwnDepartment
+[       OK ] ModerationTests.HoDQueueContainsOnlyMarksFromOwnDepartment (0 ms)
+[ RUN      ] ModerationTests.HoDCanApproveMarkAndAuditTheDecision
+[       OK ] ModerationTests.HoDCanApproveMarkAndAuditTheDecision (0 ms)
+[ RUN      ] ModerationTests.CannotReleaseMarkBeforeModeration
+[       OK ] ModerationTests.CannotReleaseMarkBeforeModeration (0 ms)
+[ RUN      ] ModerationTests.ReleasesOnlyModeratedMark
+[       OK ] ModerationTests.ReleasesOnlyModeratedMark (0 ms)
+[ RUN      ] ModerationTests.StudentQueryReturnsOnlyReleasedMarks
+[       OK ] ModerationTests.StudentQueryReturnsOnlyReleasedMarks (0 ms)
+[ RUN      ] ModerationTests.MarkChangesCanBeAuditedWithOldNewValueAndReason
+[       OK ] ModerationTests.MarkChangesCanBeAuditedWithOldNewValueAndReason (0 ms)
+[----------] 6 tests from ModerationTests (1 ms total)
+
+[----------] Global test environment tear-down.
+[==========] 18 tests from 3 test suites ran. (3 ms total)
+[  PASSED  ] 18 tests.
+
+CTest summary (representative):
+    1/1 Test #1: lms_tests ......................   Passed
+    100% tests passed, 0 tests failed out of 1
