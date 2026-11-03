@@ -1,5 +1,5 @@
 # Moderated LMS — C++17 Desktop Application
-
+Presentation video link: https://www.youtube.com/watch?v=SWZ1qbrDP9U
 A CS4433 assignment-aligned desktop LMS prototype using Qt 6 Widgets, SQLite and OpenSSL scrypt. This project is intended as a development baseline, not a claim of a fully verified or production-ready release.
 
 ## Build on Kali/Ubuntu
